@@ -43,7 +43,6 @@ class MWA2RepoPlugin(Repo):
                 password = getpass.getpass()
                 user_and_pass = '%s:%s' % (username, password)
                 self.authtoken = 'Basic %s' % base64.b64encode(user_and_pass)
-                os.environ['MUNKIREPO_AUTHTOKEN'] = self.authtoken
 
     def _curl(self, relative_url, headers=None, method='GET',
               filename=None, content=None, formdata=None):
@@ -72,7 +71,7 @@ class MWA2RepoPlugin(Repo):
         print >> fileobj, 'url = "%s"' % url
         fileobj.close()
 
-        cmd = [CURL_CMD, '-q', '--config', directivepath]
+        cmd = [CURL_CMD, '-#', '-q', '--config', directivepath]
         if filename and method == 'GET':
             cmd.extend(['-o', filename])
         if filename and method in ('PUT', 'POST'):
