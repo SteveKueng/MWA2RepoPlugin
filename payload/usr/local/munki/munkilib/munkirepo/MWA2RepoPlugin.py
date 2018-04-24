@@ -52,7 +52,7 @@ class MWA2RepoPlugin(Repo):
         contentpath = None
         fileref, directivepath = tempfile.mkstemp()
         fileobj = os.fdopen(fileref, 'w')
-        print >> fileobj, 'silent'         # no progress meter
+        print >> fileobj, 'progress-bar'         # no progress meter
         print >> fileobj, 'show-error'     # print error msg to stderr
         print >> fileobj, 'fail'           # throw error if download fails
         print >> fileobj, 'location'       # follow redirects
@@ -71,7 +71,7 @@ class MWA2RepoPlugin(Repo):
         print >> fileobj, 'url = "%s"' % url
         fileobj.close()
 
-        cmd = [CURL_CMD, '-#', '-q', '--config', directivepath]
+        cmd = [CURL_CMD, '-q', '--config', directivepath]
         if filename and method == 'GET':
             cmd.extend(['-o', filename])
         if filename and method in ('PUT', 'POST'):
