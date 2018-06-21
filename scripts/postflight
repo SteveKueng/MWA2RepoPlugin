@@ -1,6 +1,3 @@
 #!/bin/bash
 
-/usr/bin/defaults write /Library/Preferences/com.googlecode.munki.munkiimport.plist default_catalog -string "development"
-/usr/bin/defaults write /Library/Preferences/com.googlecode.munki.munkiimport.plist pkginfo_extension -string ".plist"
-/usr/bin/defaults write /Library/Preferences/com.googlecode.munki.munkiimport.plist plugin -string "MWA2RepoPlugin"
-/usr/bin/defaults write /Library/Preferences/com.googlecode.munki.munkiimport.plist repo_url -string "https://munkiwebadmin.srgssr.ch/api"
+exit 0

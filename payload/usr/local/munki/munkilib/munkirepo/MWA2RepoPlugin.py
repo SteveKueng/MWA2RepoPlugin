@@ -21,7 +21,7 @@ class CurlError(Exception):
     pass
 
 
-class MWA2RepoPlugin(Repo):
+class MWA2APIRepo(Repo):
 
     def __init__(self, baseurl):
         '''Constructor'''
@@ -52,7 +52,7 @@ class MWA2RepoPlugin(Repo):
         contentpath = None
         fileref, directivepath = tempfile.mkstemp()
         fileobj = os.fdopen(fileref, 'w')
-        print >> fileobj, 'progress-bar'         # no progress meter
+        print >> fileobj, 'silent'         # no progress meter
         print >> fileobj, 'show-error'     # print error msg to stderr
         print >> fileobj, 'fail'           # throw error if download fails
         print >> fileobj, 'location'       # follow redirects
@@ -75,7 +75,7 @@ class MWA2RepoPlugin(Repo):
         if filename and method == 'GET':
             cmd.extend(['-o', filename])
         if filename and method in ('PUT', 'POST'):
-            cmd.extend(['-d', '@%s' % filename])
+            cmd.extend(['--data-binary', '@%s' % filename])
         elif content and method in ('PUT', 'POST'):
             if len(content) > 1024:
                 # it's a lot of data; let's write it to a local file first
@@ -84,9 +84,9 @@ class MWA2RepoPlugin(Repo):
                 fileobj = os.fdopen(fileref, 'w')
                 fileobj.write(content)
                 fileobj.close()
-                cmd.extend(['-d', '@%s' % contentpath])
+                cmd.extend(['--data-binary', '@%s' % contentpath])
             else:
-                cmd.extend(['-d', content])
+                cmd.extend(['--data-binary', content])
 
         proc = subprocess.Popen(cmd, shell=False, bufsize=-1,
                                 stdin=subprocess.PIPE,
@@ -175,7 +175,7 @@ class MWA2RepoPlugin(Repo):
         saved to <repo_root>/pkgsinfo/apps/Firefox-52.0.plist.'''
         url = urllib2.quote(resource_identifier.encode('UTF-8'))
         if resource_identifier.startswith(
-                ('catalogs/', 'manifests/', 'pkgsinfo/', 'icons/')):
+                ('catalogs/', 'manifests/', 'pkgsinfo/')):
             headers = {'Content-type': 'application/xml'}
         else:
             headers = {}
