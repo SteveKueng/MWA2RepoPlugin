@@ -21,7 +21,7 @@ class CurlError(Exception):
     pass
 
 
-class MWA2APIRepo(Repo):
+class MWA2RepoPlugin(Repo):
 
     def __init__(self, baseurl):
         '''Constructor'''
